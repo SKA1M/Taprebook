@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg
+build/
+dist/
+
+# Virtual envs
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.local
+
+# Data / artifacts (we commit /data/sample, ignore the rest)
+data/raw/
+data/processed/
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/warehouse/
+
+# Streamlit
+.streamlit/secrets.toml

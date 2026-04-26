@@ -1,0 +1,4 @@
+clinic_id,clinic_name,brand,city,primary_language,timezone,grace_minutes,review_url,maps_url,plan,go_live_date
+smile_kochi,Smile Kochi Dental,Smile Kochi,Kochi,mal,Asia/Kolkata,15,https://g.page/r/smile-kochi,https://maps.google.com/?q=Smile+Kochi+Dental,Grow,2025-08-01
+bright_dental,Bright Dental Care,Bright Dental,Kochi,en,Asia/Kolkata,10,https://g.page/r/bright-dental,https://maps.google.com/?q=Bright+Dental+Kochi,Plus,2025-08-15
+orchid_dental,Orchid Dental Studio,Orchid Dental,Kochi,mal,Asia/Kolkata,15,https://g.page/r/orchid-dental,https://maps.google.com/?q=Orchid+Dental,Lite,2025-09-01

@@ -1,0 +1,18 @@
+# Data + analytics
+pandas>=2.0
+numpy>=1.24
+scipy>=1.11
+
+# LLM triage (optional — triage falls back to rules if missing/no API key)
+anthropic>=0.34.0
+
+# Dashboard
+streamlit>=1.30
+plotly>=5.18
+
+# Testing
+pytest>=7.4
+
+# Dev
+black>=24.0
+ruff>=0.4

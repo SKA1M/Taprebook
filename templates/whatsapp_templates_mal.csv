@@ -1,0 +1,11 @@
+template_id,category,language,header,body,buttons,variables
+CONFIRM_mal_v1,Utility,mal,അപ്പോയിന്റ്മെന്റ് ഉറപ്പിച്ചു,"ഹായ് {{1}}! താങ്കളുടെ {{2}} {{3}} തീയതി {{4}} സമയത്ത് ഉറപ്പിച്ചിരിക്കുന്നു. 📍 {{5}}","QR:റീഷെഡ്യൂൾ|QR:ക്യാൻസൽ","1=Patient,2=Service/Doctor,3=Date,4=Time,5=Address"
+REM24_mal_v1,Utility,mal,നാളെയ്ക്കുള്ള റിമൈൻഡർ,"ഹായ് {{1}}, താങ്കളുടെ {{2}} നാളെ {{3}} മണിക്ക് ആണ്.","QR:റീഷെഡ്യൂൾ|QR:ക്യാൻസൽ","1=Patient,2=Service/Doctor,3=Time"
+REM3H_mal_v1,Utility,mal,ഇന്ന് കാണാം,"ഹായ് {{1}}, താങ്കളുടെ {{2}} ഇന്ന് {{3}} മണിക്ക് ആണ്. 5–10 മിനിറ്റ് മുൻപ് എത്തുക. വൈകുമോ?","QR:വൈകും|QR:റീഷെഡ്യൂൾ|URL:വഴികാട്ടി","1=Patient,2=Service/Doctor,3=Time,4=Maps URL"
+LATE_mal_v1,Utility,mal,അറിയിച്ചതിന് നന്ദി,"ഞങ്ങൾ {{1}} മിനിറ്റ് വരെ സ്ലോട്ട് പിടിച്ചുവെക്കാം. എന്താണ് വേണ്ടത്?","QR:ഇന്ന് തന്നെ|QR:പിന്നീട് മാറ്റാം","1=Grace minutes"
+RESCHED_AUTO_mal_v1,Utility,mal,പുതിയ സമയം തിരഞ്ഞെടുക്കുക,"{{1}} ന് പുതിയ സമയം തിരഞ്ഞെടുക്കുക:","URL:പുതിയ സമയം ബുക്ക് ചെയ്യുക","1=Service/Doctor,2=Booking URL"
+RESCHED_MAN_mal_v1,Utility,mal,സമയം തിരഞ്ഞെടുക്കുക,"{{1}} - {{2}} തീയതി ഏത് സമയമാണ് അനുയോജ്യം?","QR:രാവിലെ|QR:ഉച്ചയ്ക്ക്|QR:വൈകുന്നേരം","1=Service/Doctor,2=Date"
+NOSHOW_REBOOK_mal_v1,Utility,mal,ഇന്ന് കാണാൻ കഴിഞ്ഞില്ല,"ഹായ് {{1}}, {{2}} ന് കാണാൻ കഴിഞ്ഞില്ല. പുതിയ സമയം: • {{3}} • {{4}}","QR:{{3}} ബുക്ക്|QR:{{4}} ബുക്ക്|QR:കൂടുതൽ സമയം","1=Patient,2=Service/Doctor,3=Slot A,4=Slot B"
+RESCHEDULE_CONFIRM_mal_v1,Utility,mal,റീഷെഡ്യൂൾ ചെയ്തു,"{{1}}, താങ്കളുടെ {{2}} ഇപ്പോൾ {{3}} - {{4}} മണിക്ക് ആണ്.","URL:കലണ്ടറിൽ ചേർക്കുക|URL:വഴികാട്ടി","1=Patient,2=Service/Doctor,3=Date,4=Time,5=Calendar URL,6=Maps URL"
+REVIEW_mal_v1,Marketing,mal,സന്ദർശനം എങ്ങനെയുണ്ടായിരുന്നു?,"ഹായ് {{1}}, ഇന്ന് {{2}} സന്ദർശിച്ചതിന് നന്ദി. ഒരു Google റിവ്യൂ നൽകാമോ?","URL:റിവ്യൂ നൽകുക","1=Patient,2=Clinic,3=GBP review URL"
+REOPEN_mal_v1,Utility,mal,താങ്കളുടെ അപ്പോയിന്റ്മെന്റ് സംബന്ധിച്ച്,"താങ്കളുടെ {{1}} സംബന്ധിച്ച് ഫോളോ-അപ് ചെയ്യുന്നു. തുടരാൻ താഴെ ടാപ്പ് ചെയ്യുക.","URL:തുടരുക","1=Service/Doctor,2=Deep link"

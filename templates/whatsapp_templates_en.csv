@@ -1,0 +1,11 @@
+template_id,category,language,header,body,buttons,variables
+CONFIRM_v1,Utility,en,Appointment confirmed,"Hi {{1}}! Your {{2}} is confirmed for {{3}} at {{4}}. 📍 {{5}} If plans change, use the button below.","QR:Reschedule|QR:Cancel","1=Patient,2=Service/Doctor,3=Date,4=Time,5=Address"
+REM24_v1,Utility,en,Reminder for tomorrow,"Hi {{1}}, reminder for your {{2}} tomorrow at {{3}}. Need to change the time? Tap Reschedule.","QR:Reschedule|QR:Cancel","1=Patient,2=Service/Doctor,3=Time"
+REM3H_v1,Utility,en,See you today,"Hi {{1}}, your {{2}} is today at {{3}}. Please arrive 5–10 mins early. Running late? Tap below.","QR:Running Late|QR:Reschedule|URL:Directions","1=Patient,2=Service/Doctor,3=Time,4=Maps URL"
+RESCHED_AUTO_v1,Utility,en,Pick a new time,"Choose a new time for {{1}} here:","URL:Book new time","1=Service/Doctor,2=Booking URL"
+RESCHED_MAN_v1,Utility,en,Choose a window,"For {{1}} on {{2}}, which works best?","QR:Morning|QR:Afternoon|QR:Evening","1=Service/Doctor,2=Date"
+LATE_v1,Utility,en,Thanks for the update,"We'll hold your slot up to {{1}} mins. What would you like to do?","QR:Keep today|QR:Move later","1=Grace minutes"
+NOSHOW_REBOOK_v1,Utility,en,We missed you today,"Hi {{1}}, we missed you for {{2}}. Choose a new time: • {{3}} • {{4}}. Or tap See more times.","QR:Book {{3}}|QR:Book {{4}}|QR:See more times","1=Patient,2=Service/Doctor,3=Slot A,4=Slot B"
+RESCHEDULE_CONFIRM_v1,Utility,en,Rescheduled successfully,"All set, {{1}}—your {{2}} is now {{3}} at {{4}}.","URL:Add to Calendar|URL:Directions","1=Patient,2=Service/Doctor,3=Date,4=Time,5=Calendar URL,6=Maps URL"
+REVIEW_v1,Marketing,en,How was your visit?,"Hi {{1}}, thanks for visiting {{2}} today. Could you leave a quick Google review? It helps other patients in Kochi.","URL:Leave a review","1=Patient,2=Clinic,3=GBP review URL"
+REOPEN_v1,Utility,en,Update about your appointment,"We're following up on your {{1}}. Tap below to continue.","URL:Continue","1=Service/Doctor,2=Deep link"

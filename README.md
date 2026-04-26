@@ -1,0 +1,136 @@
+# TapRebook
+
+**Analytics and orchestration layer for a WhatsApp-based clinic CRM.**
+Built for a small pilot of dental clinics in Kochi, Kerala (2025).
+
+TapRebook is a WhatsApp "receptionist" that handles appointment confirmations, reminders, running-late triage, no-show rebooking, and post-visit review requests in English and Malayalam. This repo is the **data and analytics backbone** — the SQL warehouse, ETL pipeline, A/B experimentation framework, KPI dashboard, and an LLM-powered triage classifier for inbound patient replies.
+
+---
+
+## What's in here
+
+```
+taprebook/
+├── sql/                    # Schema, indexes, views, and 6 named KPI queries
+├── taprebook/
+│   ├── etl/                # Extract → transform → load (CSV / Sheets → SQLite)
+│   ├── api/                # Interakt (WhatsApp BSP) client — live + mock modes
+│   ├── triage/             # LLM-powered EN/MAL intent classifier
+│   ├── experiments/        # A/B analysis (two-proportion z-test)
+│   └── data_gen/           # Deterministic synthetic data generator
+├── dashboards/             # Streamlit KPI dashboard
+├── templates/              # WhatsApp template CSVs (EN + MAL)
+├── docs/                   # Architecture, event schema, KPI definitions
+├── tests/                  # 47 tests, all green
+└── scripts/                # init_db.py, run_all_kpis.py
+```
+
+---
+
+## Quickstart
+
+```bash
+git clone <repo>
+cd taprebook
+
+make install          # pandas, numpy, scipy (core); streamlit + anthropic optional
+make generate         # synthetic data: 3 clinics × 90 days
+make init-db          # apply schema, load CSVs → data/taprebook.db
+make kpis             # run every SQL query and print results
+make ab-test          # run A/B analysis (planted effect should be significant)
+make test             # pytest
+make dashboard        # Streamlit UI at localhost:8501
+```
+
+All five commands run without credentials. The Interakt client ships in mock mode; the LLM triage falls back to rules when `ANTHROPIC_API_KEY` is unset.
+
+---
+
+## What it does
+
+### Event schema
+
+10-column append-only log over 7 tables (3 dimensions + 4 facts), keyed by a composite `appt_id = phone | YYYYMMDD | HHMM`. This is the same natural key that made the original Google Sheets prototype idempotent against webhook replay — see [`docs/event_schema.md`](docs/event_schema.md).
+
+### SQL warehouse
+
+- **Schema** — `clinics`, `patients`, `templates`, `appointments`, `events`, `template_sends`, `ab_assignments` ([`sql/001_schema.sql`](sql/001_schema.sql))
+- **Indexes** — 9, each justified by an actual query pattern ([`sql/002_indexes.sql`](sql/002_indexes.sql))
+- **Analytical views** — 6 views that define every dashboard metric exactly once ([`sql/003_views.sql`](sql/003_views.sql))
+- **Named queries** — 6 SQL files under [`sql/queries/`](sql/queries/) covering monthly KPIs, no-show trend, reminder funnel, cohort recall, template health, and A/B results
+
+### ETL pipeline
+
+Direct Python port of the Google Sheets `ARRAYFORMULA` + `QUERY` logic from the original prototype, with the prototype preserved in [`docs/artifacts/google_sheets_etl.sql`](docs/artifacts/google_sheets_etl.sql) for traceability. Covers phone → E.164 normalization, composite primary keys, effective status derivation with grace-period handling, and procedure-driven recall due dates (Prophy → +180d, New Exam → +365d).
+
+### LLM triage
+
+[`taprebook/triage/classifier.py`](taprebook/triage/classifier.py) classifies inbound WhatsApp replies into 9 intents (`confirm`, `cancel`, `reschedule_auto`, `reschedule_window`, `running_late`, `no_show_rebook`, `review_intent`, `question`, `other`). Handles English, Malayalam (Unicode), and transliterated Manglish. Primary path uses the Anthropic Messages API (Claude Haiku for cost); rule-based fallback runs in CI and when no API key is set.
+
+### A/B experimentation
+
+`reminder_cadence_v1` — control (D-1 only) vs treatment (D-1 + T-3h reminders). Two-proportion z-test with a 95% CI on the absolute difference. On the shipped synthetic data the planted effect reads:
+
+```
+Control     : n=280  kept=219  rate=78.21%
+Treatment   : n=291  kept=253  rate=86.94%
+Abs diff    : +8.73 pp   (rel lift +11.16%)
+95% CI      : [+2.53, +14.92] pp
+z-statistic : +2.754       p-value: 0.0059
+Significant : YES ✅ (alpha=0.05)
+```
+
+### Dashboard
+
+Streamlit app with six tabs (monthly summary, no-show trend, reminder funnel, cohort recall, template health, A/B result). Reads from the same SQL views as everything else — no divergent metric definitions.
+
+---
+
+## About the data
+
+The `data/sample/` CSVs are **synthetic**, produced by [`taprebook/data_gen/generate.py`](taprebook/data_gen/generate.py) with a fixed seed (42). Real clinic data is not redistributable. The generator is calibrated to realistic baselines (15% no-show, 97% delivery, 25% review conversion) and plants a measurable A/B effect so the analysis has something to detect.
+
+Three things are preserved verbatim from the real pilot in [`docs/artifacts/`](docs/artifacts/): the Google Sheets formula logic, the pricing one-pager, the service cards / onboarding checklist. Those document **what the product was**, independent of any synthetic numbers.
+
+---
+
+## Testing
+
+```bash
+make test
+# 47 passed, 2 skipped in 1.86s
+```
+
+The 2 skipped tests require `ANTHROPIC_API_KEY` and exercise the live LLM triage path.
+
+Tests cover:
+- Phone normalization edge cases (spaces, hyphens, existing country codes, numeric input)
+- Composite `appt_id` correctness
+- Effective-status precedence (update > overdue > scheduled) and grace-period logic
+- Recall date arithmetic (Prophy, New Exam, earliest-wins)
+- Rule-based triage for English, Malayalam Unicode, and Manglish
+- End-to-end pipeline smoke test on a clean throwaway DB
+
+---
+
+## Design docs
+
+- [`docs/architecture.md`](docs/architecture.md) — system design, rationale, and what's *not* built
+- [`docs/event_schema.md`](docs/event_schema.md) — event taxonomy and state reconstruction
+- [`docs/kpi_definitions.md`](docs/kpi_definitions.md) — every metric formally defined
+
+---
+
+## Project status
+
+This was a small consulting project with 3 Kochi dental clinics in 2025. The repo preserves the analytics/engineering work; the live service is no longer running. I'm keeping it on GitHub as a portfolio piece that shows end-to-end data work: schema design → ETL → SQL analytics → experimentation → LLM integration.
+
+**What started in Google Sheets:** phone normalization, composite keys, status derivation formulas, recall date math — all preserved in `docs/artifacts/google_sheets_etl.sql`.
+
+**What was ported/added here:** full SQL schema + views + indexes, Python ETL with unit tests, LLM-powered inbound triage (EN/MAL/Manglish), BSP client abstraction, A/B experimentation framework with proper statistical testing, Streamlit dashboard, deterministic synthetic data generator.
+
+---
+
+## License
+
+MIT. See [LICENSE](LICENSE).

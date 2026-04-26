@@ -1,0 +1,11 @@
+template_id,category,language,header,body,buttons_json,status
+CONFIRM_v1,Utility,en,Appointment confirmed,Hi {{1}}! Your {{2}} is confirmed for {{3}} at {{4}}. Location: {{5}}.,,approved
+REM24_v1,Utility,en,Reminder for tomorrow,"Hi {{1}}, reminder for your {{2}} tomorrow at {{3}}.",,approved
+REM3H_v1,Utility,en,See you today,"Hi {{1}}, your {{2}} is today at {{3}}. Please arrive 5-10 mins early.",,approved
+LATE_v1,Utility,en,Thanks for the update,We'll hold your slot up to {{1}} mins. What would you like to do?,,approved
+RESCHED_AUTO_v1,Utility,en,Pick a new time,Choose a new time for {{1}} here:,,approved
+RESCHED_MAN_v1,Utility,en,Choose a window,"For {{1}} on {{2}}, which works best?",,approved
+NOSHOW_REBOOK_v1,Utility,en,We missed you today,"Hi {{1}}, we missed you for {{2}}. Choose a new time.",,approved
+RESCHEDULE_CONFIRM_v1,Utility,en,Rescheduled,"All set, {{1}}—your {{2}} is now {{3}} at {{4}}.",,approved
+REVIEW_v1,Marketing,en,How was your visit?,"Hi {{1}}, thanks for visiting {{2}}. Could you leave a quick Google review?",,approved
+REOPEN_v1,Utility,en,Update about your appointment,We're following up on your {{1}}. Tap below to continue.,,approved
